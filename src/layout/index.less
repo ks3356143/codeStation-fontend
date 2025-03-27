@@ -1,0 +1,70 @@
+/* 整体顶部样式 */
+
+
+/* 顶部中间容器样式 */
+.nav-header-container {
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+/* logo */
+.log-container {
+    width: 150px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo {
+    width: 100%;
+    height: 45px;
+    background: url("../asserts/imgs/logo.png");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 导航区域 */
+.navigation-list {
+    display: flex;
+    width: 400px;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+
+    a {
+        font-size: 1rem;
+        color: #fff;
+
+        &:hover {
+            color: #61bcf4;
+        }
+
+        &.active {
+            color: #1890ff
+        }
+    }
+}
+
+.input-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+
+    .ant-select {
+        width: 80px;
+    }
+}
+
+.login-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-right: 20px;
+}
