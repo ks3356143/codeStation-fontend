@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Input, Modal, Radio, type RadioChangeEvent, Divider } from "antd"
+import { Button, Flex, Form, Input, Modal, Radio, type RadioChangeEvent, Divider, Image } from "antd"
 import { type CheckboxGroupProps } from "antd/es/checkbox"
 import { LockOutlined, UserOutlined } from "@ant-design/icons"
 import { useState } from "react"
@@ -6,6 +6,7 @@ import styles from "./index.module.less"
 import { useStoreDispatch, useStoreSelector } from "@/store/hooks"
 import { fetchTokenCreator } from "@/store/userSlice"
 import { selectUser } from "@/store/userSlice"
+import noRegisterImg from "@/asserts/imgs/no-register.svg"
 
 type Props = {
 	isShow: boolean
@@ -69,7 +70,16 @@ const LoginForm = (props: Props) => {
 				</Form.Item>
 			</Form>
 		) : (
-			"注册面板"
+			<div className={styles.noRegisterImgContainer}>
+				<Image preview={false} width={200} height={200} src={noRegisterImg}></Image>
+				<span
+					style={{
+						color: "#666",
+					}}
+				>
+					暂无注册功能，请使用内网账号登录...
+				</span>
+			</div>
 		)
 
 	return (

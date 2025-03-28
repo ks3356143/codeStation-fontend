@@ -11,7 +11,7 @@ const { Header, Footer, Content } = AntdLayout
 type Props = {}
 
 const Layout = (props: Props) => {
-	// 登录按钮事件
+	// 点击打开登录Modal
 	const onLogin = () => {
 		setIsModalOpen(true)
 	}

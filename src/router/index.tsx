@@ -11,6 +11,10 @@ const routeConfig: RouteConfig[] = [
 			{
 				path: "/",
 				element: lazy(() => import("@/layout")),
+				middlewares: [
+					// 验证登录和请求用户信息中间件
+					lazy(() => import("@/router/middlewares/AuthMiddleware")),
+				],
 				children: [
 					{
 						index: true,

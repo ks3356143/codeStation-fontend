@@ -47,7 +47,7 @@ const NavHeader = (props: Props) => {
 				<Input.Search placeholder="请输入搜索内容..." allowClear enterButton="搜索" size="large" />
 			</div>
 
-			{/* 登录注册按钮 */}
+			{/* 登录注册按钮和用户头像 */}
 			<div className="login-button-container">
 				<LoginAvatar onLogin={props.onLogin}></LoginAvatar>
 			</div>

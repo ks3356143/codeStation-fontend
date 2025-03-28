@@ -31,20 +31,29 @@ const items: MenuProps["items"] = [
 	},
 ]
 
+// 缺省头像随机颜色
+const colorList = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae", "#f5222d", "#7cb305", "#13c2c2", "#1677ff"]
+const getColor = () => {
+	return colorList[Math.floor(Math.random() * colorList.length)]
+}
+
 // 该组件显示用户头像，如果没有登录，则显示注册/登录按钮
 const LoginAvatar = (props: Props) => {
 	// 获取用户登录状态
 	const { isLogin, userInfo } = useStoreSelector(selectUser)
 	// 判断userInfo是否存在
 	const url = userInfo.avatar
-
 	return isLogin ? (
 		<Dropdown menu={{ items }} placement="bottom" arrow>
-			{url ? (
-				<Avatar size="large" src={<img src={url} alt="avatar" />} />
-			) : (
-				<Avatar size="large" style={{ backgroundColor: "#87d068" }} icon={<UserOutlined />} />
-			)}
+			<div style={{ userSelect: "none", cursor: "pointer" }}>
+				{url ? (
+					<Avatar size="large" src={<img src={url} alt="avatar" />} />
+				) : (
+					<Avatar size="large" style={{ backgroundColor: getColor() }}>
+						{userInfo.name[0]}
+					</Avatar>
+				)}
+			</div>
 		</Dropdown>
 	) : (
 		<Button type="primary" size="large" onClick={props.onLogin}>
