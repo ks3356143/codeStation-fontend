@@ -9,7 +9,7 @@ import { stringify } from "qs"
  * @param {Object} service axios 实例
  * @returns {Function} 参数请求options，进行请求
  */
-function createRequest(service: AxiosInstance): Function {
+function createRequest(service: AxiosInstance) {
 	return function (config: AxiosRequestConfig) {
 		const env = import.meta.env
 		const token = localTool.get(env.VITE_APP_TOKEN_PREFIX)

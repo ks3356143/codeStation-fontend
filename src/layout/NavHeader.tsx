@@ -1,4 +1,4 @@
-import { Button, Input, Select } from "antd"
+import { Input, Select } from "antd"
 import { NavLink } from "react-router"
 import LoginAvatar from "@/components/LoginAvartar"
 
@@ -7,15 +7,6 @@ type Props = {
 }
 
 const NavHeader = (props: Props) => {
-	// 搜索下拉
-	const selectAfter = (
-		<Select defaultValue=".com">
-			<Select.Option value=".com">.com</Select.Option>
-			<Select.Option value=".jp">.jp</Select.Option>
-			<Select.Option value=".cn">.cn</Select.Option>
-			<Select.Option value=".org">.org</Select.Option>
-		</Select>
-	)
 	return (
 		<header className="nav-header-container">
 			{/* logo */}
