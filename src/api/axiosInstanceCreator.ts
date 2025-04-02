@@ -26,6 +26,10 @@ const createService = () => {
 			} else if (res.data.code && res.data.code !== 200 && res.data.code !== 20000) {
 				// 2.如果data.code不为200或20000，报antd中message错误、
 				message.error(res.data.message)
+				return Promise.reject({
+					...res.data,
+					__isBusinessError: true, // 标记为业务错误，服务器响应了
+				})
 			}
 			return res.data
 		},
@@ -59,7 +63,11 @@ const createService = () => {
 			} else {
 				errFunc("请求超时，服务器无响应")
 			}
-			return Promise.reject(error.response && error.response.data ? error.response.data : null)
+			return Promise.reject({
+				...error.response?.data,
+				status: error.response?.status,
+				__isHttpError: true, // 请求服务器错误类型
+			})
 		}
 	)
 	return service

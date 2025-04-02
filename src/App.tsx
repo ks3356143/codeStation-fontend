@@ -4,9 +4,9 @@ import { router } from "./router"
 import { RouterProvider } from "react-router"
 import store from "./store"
 import { Provider as StoreProvider } from "react-redux"
-import type { MessageInstance } from "antd/es/message/interface"
 import "nprogress/nprogress.css"
 import NProgress from "nprogress"
+import { ToastContainer } from "react-toastify"
 
 NProgress.configure({
 	speed: 500, // 动画速度
@@ -26,6 +26,23 @@ const App = () => {
 			}}
 		>
 			<AppContainer component={false}>
+				{/* 配置全局toast */}
+				<ToastContainer
+					position="top-center"
+					autoClose={3000}
+					hideProgressBar={false}
+					newestOnTop={true}
+					closeOnClick={false}
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					theme="light"
+					style={{
+						fontSize: "16px",
+						fontWeight: 500,
+					}}
+				></ToastContainer>
 				<StoreProvider store={store}>
 					<RouterProvider router={router} />
 				</StoreProvider>

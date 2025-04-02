@@ -2,13 +2,15 @@ import { lazy } from "react"
 import { buildRoutes, RouteConfig } from "./utils"
 import { createBrowserRouter } from "react-router"
 import ErrorBoundary from "@/components/ErrorBoundary"
+import LazyLoading from "@/components/LazyLoading"
 // loader
 import { loader as IssueLoader } from "@/pages/Issue"
 
 // 改造后的routes，注意提供middlewares异步组件的数组
 const routeConfig: RouteConfig[] = [
 	{
-		ErrorBoundary: ErrorBoundary, // 统一处理的错误边界
+		// 整体的loader/action错误边界
+		errorElement: <ErrorBoundary />,
 		children: [
 			{
 				path: "/",
@@ -22,6 +24,9 @@ const routeConfig: RouteConfig[] = [
 						index: true,
 						element: lazy(() => import("@/pages/Issue")),
 						loader: IssueLoader,
+						hydrateFallbackElement: <LazyLoading></LazyLoading>,
+						// 配置Issue页面的loader/action错误边界
+						errorElement: <ErrorBoundary />,
 					},
 					{
 						path: "/book",

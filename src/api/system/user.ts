@@ -22,4 +22,14 @@ export default {
 			params,
 		})
 	},
+	/**
+	 * 请求积分前十的用户
+	 */
+	getUserByPoints(params = {}) {
+		return request({
+			url: "/user/points_rank",
+			method: "get",
+			params,
+		})
+	},
 }

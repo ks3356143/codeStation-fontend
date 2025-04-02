@@ -18,6 +18,7 @@ const userSlice = createSlice({
 			name: "",
 			role: "",
 			username: "",
+			points: "",
 		},
 	},
 	reducers: {},
@@ -42,7 +43,7 @@ const userSlice = createSlice({
 				localTool.remove("token")
 				state.isLogin = false
 			})
-			.addCase(fetchUserInfo.fulfilled, (state, action) => {
+			.addCase(fetchUserInfo.fulfilled, (state, action: any) => {
 				if (action.payload.success) {
 					state.userInfo = action.payload.data
 				} else {
