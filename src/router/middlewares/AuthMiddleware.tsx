@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useNavigation, useOutlet } from "react-router"
+import { useOutlet } from "react-router"
 import { useStoreDispatch, useStoreSelector } from "@/store/hooks"
 import { fetchUserInfo } from "@/store/userSlice"
 import NProgress from "nprogress"

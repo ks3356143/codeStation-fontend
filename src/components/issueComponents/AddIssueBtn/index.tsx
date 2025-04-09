@@ -1,8 +1,10 @@
-import { Button, message } from "antd"
+import { Button } from "antd"
 import { useStoreSelector } from "@/store/hooks"
 import { selectUser } from "@/store/userSlice"
 import { useNavigate } from "react-router"
 import { toast } from "react-toastify"
+import CtaButton from "@/components/atomics/CtaButton"
+import styles from "./index.module.less"
 /**
  * 添加问答按钮
  */
@@ -11,24 +13,15 @@ const AddIssueBtn = () => {
 	const navigate = useNavigate()
 	const clickHandle = () => {
 		if (isLogin) {
+			navigate("/addIssue")
 		} else {
 			toast.error("请先登录，再进行提问")
 		}
 	}
 	return (
-		<>
-			<Button
-				type="primary"
-				size="large"
-				style={{
-					width: "100%",
-					marginBottom: "30px",
-				}}
-				onClick={clickHandle}
-			>
-				我要发问
-			</Button>
-		</>
+		<div className={styles.btnCSS}>
+			<CtaButton onClick={clickHandle}></CtaButton>
+		</div>
 	)
 }
 

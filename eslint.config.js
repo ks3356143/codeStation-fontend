@@ -26,6 +26,7 @@ export default tseslint.config(
 			"no-empty": 0,
 			"@typescript-eslint/no-unsafe-function-type": 0,
 			"react-refresh/only-export-components": 0,
+			"react-hooks/exhaustive-deps": 0,
 		},
 	}
 )

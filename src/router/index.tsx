@@ -5,6 +5,7 @@ import ErrorBoundary from "@/components/ErrorBoundary"
 import LazyLoading from "@/components/LazyLoading"
 // loader
 import { loader as IssueLoader } from "@/pages/Issue"
+import { loader as IssueDetailLoader } from "@/pages/IssueDetail"
 
 // 改造后的routes，注意提供middlewares异步组件的数组
 const routeConfig: RouteConfig[] = [
@@ -35,6 +36,17 @@ const routeConfig: RouteConfig[] = [
 					{
 						path: "/quiz",
 						element: lazy(() => import("@/pages/Quiz")),
+					},
+					{
+						path: "/addIssue",
+						element: lazy(() => import("@/pages/AddIssue")),
+						middlewares: [lazy(() => import("@/router/middlewares/AuthProtectMiddleware"))],
+					},
+					{
+						path: "/issueDetail/:issueId",
+						element: lazy(() => import("@/pages/IssueDetail")),
+						hydrateFallbackElement: <LazyLoading></LazyLoading>,
+						loader: IssueDetailLoader,
 					},
 				],
 			},

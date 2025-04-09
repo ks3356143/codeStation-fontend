@@ -32,4 +32,16 @@ export default {
 			params,
 		})
 	},
+	/**
+	 * 根据id查询单个用户信息
+	 */
+	getUserInfoById(params: any) {
+		return request({
+			url: "/user/get_info_by_id",
+			method: "get",
+			params: {
+				user_id: params.user_id, // 注意这里更改了，非常注意
+			},
+		})
+	},
 }

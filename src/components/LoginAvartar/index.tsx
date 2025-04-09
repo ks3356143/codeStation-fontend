@@ -1,7 +1,7 @@
 import { useStoreSelector } from "@/store/hooks"
 import { selectUser } from "@/store/userSlice"
 import { Avatar, Button, Dropdown, type MenuProps } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import styles from "./uiverse.module.css"
 
 type Props = {
 	onLogin: () => void
@@ -56,9 +56,9 @@ const LoginAvatar = (props: Props) => {
 			</div>
 		</Dropdown>
 	) : (
-		<Button type="primary" size="large" onClick={props.onLogin}>
+		<button className={styles.buttonStyle} onClick={props.onLogin}>
 			注册/登录
-		</Button>
+		</button>
 	)
 }
 

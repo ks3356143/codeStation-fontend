@@ -1,6 +1,6 @@
 /* 组件说明：这是统一的错误页面，专用错误页面请在各级边界定义 */
 import { Empty, Typography, Flex, Button, Alert, Spin } from "antd"
-import { useRevalidator, useRouteError } from "react-router"
+import { useNavigate, useRevalidator, useRouteError } from "react-router"
 import { LoadingOutlined } from "@ant-design/icons"
 
 const { Title, Text } = Typography
@@ -8,6 +8,7 @@ const { Title, Text } = Typography
 // 注意你没有使用react router vite插件只能使用钩子函数
 // const error = useRouteError() 注意axios拦截器拦截错误了，这里拿不到错误信息
 const ErrorBoundary = () => {
+	const navigate = useNavigate()
 	const error = useRouteError()
 	// 判断是否为开发环境，开发环境则展示错误
 	const showDev = process.env.NODE_ENV === "development"
@@ -44,13 +45,22 @@ const ErrorBoundary = () => {
 									<Text type={"secondary"}>如重试后仍然存在问题，请联系开发人员</Text>
 								</div>
 								<div style={{ marginTop: 24, marginBottom: 24 }}>
-									<Button
-										type="primary"
-										onClick={onRetry}
-										style={{ width: 200, height: 40 }}
-									>
-										重试
-									</Button>
+									<Flex gap={10} align="center" justify="center">
+										<Button
+											type="primary"
+											onClick={onRetry}
+											style={{ width: 200, height: 40 }}
+										>
+											重试
+										</Button>
+										<Button
+											type="primary"
+											onClick={() => navigate("/")}
+											style={{ width: 200, height: 40 }}
+										>
+											返回首页
+										</Button>
+									</Flex>
 								</div>
 								{error ? (
 									showDev ? (

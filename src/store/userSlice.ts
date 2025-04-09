@@ -10,6 +10,7 @@ const userSlice = createSlice({
 		isLogin: typeof window !== "undefined" && !!localStorage.getItem("token"),
 		isLoading: false,
 		userInfo: {
+			id: "",
 			avatar: "",
 			date_joined: "",
 			email: "",
