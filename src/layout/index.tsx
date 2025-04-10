@@ -8,9 +8,7 @@ import { useState } from "react"
 // 获取antd组件
 const { Header, Footer, Content } = AntdLayout
 
-type Props = {}
-
-const Layout = (props: Props) => {
+const Layout = () => {
 	// 点击打开登录Modal
 	const onLogin = () => {
 		setIsModalOpen(true)

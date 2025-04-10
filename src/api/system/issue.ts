@@ -12,7 +12,12 @@ export default {
 	/**
 	 * 分页获取问答
 	 */
-	getIssueByPage(params: { page?: number; page_size?: number; enabled?: boolean } = { enabled: true }) {
+	getIssueByPage(
+		params: { page?: number; page_size?: number; enabled?: boolean; type?: string } = {
+			enabled: true,
+			type: "all",
+		}
+	) {
 		return request({
 			url: "/issue",
 			method: "GET",
@@ -36,6 +41,22 @@ export default {
 		return request({
 			url: `/issue/${issue_id}`,
 			method: "GET",
+		})
+	},
+	/**
+	 * 搜索Issue内容和标题
+	 */
+	getIssueByTitleAndContent(
+		params: { searchValue: string; searchOption: string; page?: number; page_size?: number } = {
+			page: 1,
+			page_size: 10,
+			searchValue: "",
+			searchOption: "issue",
+		}
+	) {
+		return request({
+			url: "/issue/getIssuesByContent/",
+			params,
 		})
 	},
 }

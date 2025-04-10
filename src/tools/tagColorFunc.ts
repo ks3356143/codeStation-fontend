@@ -1,6 +1,5 @@
 export function getColorByType(type: string) {
 	const colors = [
-		"magenta",
 		"red",
 		"volcano",
 		"orange",

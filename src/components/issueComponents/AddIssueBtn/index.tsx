@@ -1,4 +1,4 @@
-import { Button } from "antd"
+import { memo } from "react"
 import { useStoreSelector } from "@/store/hooks"
 import { selectUser } from "@/store/userSlice"
 import { useNavigate } from "react-router"
@@ -25,4 +25,4 @@ const AddIssueBtn = () => {
 	)
 }
 
-export default AddIssueBtn
+export default memo(AddIssueBtn)

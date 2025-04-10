@@ -1,6 +1,7 @@
 import { Card, Carousel, Image } from "antd"
 import styles from "./recommend.module.less"
 import RecommendItem from "./RecommendItem"
+import { memo } from "react"
 
 // 问答页面右侧推荐组件
 const Recommend = () => {
@@ -59,4 +60,4 @@ const Recommend = () => {
 	)
 }
 
-export default Recommend
+export default memo(Recommend)

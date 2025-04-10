@@ -1,7 +1,8 @@
 import { useStoreSelector } from "@/store/hooks"
 import { selectUser } from "@/store/userSlice"
-import { Avatar, Button, Dropdown, type MenuProps } from "antd"
+import { Avatar, Dropdown, type MenuProps } from "antd"
 import styles from "./uiverse.module.css"
+import { memo } from "react"
 
 type Props = {
 	onLogin: () => void
@@ -62,4 +63,4 @@ const LoginAvatar = (props: Props) => {
 	)
 }
 
-export default LoginAvatar
+export default memo(LoginAvatar)

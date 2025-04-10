@@ -1,8 +1,9 @@
 import userApi from "@/api/system/user"
-import { ReactNode, Suspense, use } from "react"
+import { ReactNode, Suspense, use, memo } from "react"
 import ScoreItem from "./ScoreItem"
 import { Card, Spin } from "antd"
 import type { RootStateType } from "@/store"
+
 const resPromise = userApi.getUserByPoints()
 
 /**
@@ -33,4 +34,4 @@ const ScoreRank = () => {
 	)
 }
 
-export default ScoreRank
+export default memo(ScoreRank)

@@ -10,19 +10,12 @@ import { toast } from "react-toastify"
 import { useStoreSelector } from "@/store/hooks"
 import type { ICreateIssue } from "@/api/system/issue"
 
-// 表单类型
-interface FormData {}
-
 const AddIssue = () => {
 	const navigate = useNavigate()
 	const userInfo = useStoreSelector(state => state.user.userInfo)
 	// 定义表单数据
-	const [issueInfo, setIssueInfo] = useState({
-		issueTitle: "",
-		issueContent: "",
-		user_id: "",
-		type_id: "",
-	} as ICreateIssue)
+	const initialIssueInfo = { issueTitle: "", issueContent: "", user_id: "", type_id: "" }
+	const [issueInfo, setIssueInfo] = useState(initialIssueInfo as ICreateIssue)
 	const addHandle = async (values: { issueTitle: string; type_id: string; issueContent: string }) => {
 		const content = (editorRef.current as any).getInstance().getHTML()
 		const postData = {
@@ -129,12 +122,9 @@ const AddIssue = () => {
 				</Form.Item>
 
 				{/* 确认按钮 */}
-				<Form.Item wrapperCol={{ offset: 21 }}>
+				<Form.Item wrapperCol={{ offset: 22 }}>
 					<Button type="primary" size="large" htmlType="submit">
 						确认新增
-					</Button>
-					<Button type="link" size="large" htmlType="submit" className="resetBtn">
-						重置
 					</Button>
 				</Form.Item>
 			</Form>

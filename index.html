@@ -6,10 +6,87 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CoderStation</title>
+  <style>
+    .tank {
+      width: 200px;
+      height: 100px;
+      margin: 100px auto;
+      border: 2px solid blue;
+      border-radius: 0 0 20px 20px;
+      /*矩形圆角*/
+    }
+
+    .battery {
+      width: 100px;
+      height: 50px;
+      margin: 0px auto;
+      background-color: cornflowerblue;
+      border-radius: 0 0 50px 50px;
+    }
+
+    .spiale {
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background-color: white;
+      margin: auto;
+      animation: go 3s infinite linear, gol 300ms infinite linear;
+    }
+
+    .gun {
+      width: 4px;
+      height: 25px;
+      margin: -2px auto 0px;
+      background-color: #fff;
+      transform-origin: top;
+      animation: go 3s infinite linear;
+      /* 引用 go infinite 无限循环 linear 匀速*/
+    }
+
+    @keyframes gol {
+
+      /*4个点*/
+      0% {
+        box-shadow: 0px 50px 0px -7px red,
+          0px 75px 0px -7px red,
+          0px 100px 0px -7px red,
+          0px 125px 0px -7px red;
+      }
+
+      100% {
+        box-shadow: 0px 75px 0px -7px red,
+          0px 100px 0px -7px red,
+          0px 125px 0px -7px red,
+          0px 150px 0px -7px red;
+      }
+    }
+
+    @keyframes go {
+      0% {
+        transform: rotate(-45deg)
+      }
+
+      /*-45deg 为-45度*/
+      50% {
+        transform: rotate(45deg)
+      }
+
+      100% {
+        transform: rotate(-45deg)
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div class="tank">
+      <div class="battery">
+        <div class="spiale"></div>
+        <div class="gun"></div>
+      </div>
+    </div>
+  </div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
