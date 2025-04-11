@@ -85,7 +85,11 @@ const Discuss = (props: Props) => {
 	// 根据登录状态进行头像处理
 	let avatar = <Avatar icon={<UserOutlined />} />
 	if (isLogin) {
-		avatar = userInfo.avatar ? <Avatar src={userInfo.avatar} /> : <Avatar icon={<UserOutlined />} />
+		avatar = userInfo.avatar ? (
+			<Avatar src={`${import.meta.env.VITE_API_BASE_URL}${userInfo.avatar}`} />
+		) : (
+			<Avatar icon={<UserOutlined />} />
+		)
 	}
 	// 处理评论【乐观更新】
 	const [optimisticState, addOptimistic] = useOptimistic(commentList, (preCommentList, newComment) => {
@@ -121,6 +125,8 @@ const Discuss = (props: Props) => {
 					avatar: "",
 				},
 			})
+			// 手动延迟1s，让用户看见乐观状态
+			await new Promise(resolve => setTimeout(resolve, 1000))
 			try {
 				const res = await commentApi.submitCommentOnIssue(addOptions)
 				const commentObj = res.data
@@ -188,7 +194,16 @@ const Discuss = (props: Props) => {
 					dataSource={optimisticState}
 					renderItem={(item: any) => (
 						<Comment
-							avatar={<Avatar src={item.userInfo.avatar || null} icon={<UserOutlined />} />}
+							avatar={
+								<Avatar
+									src={
+										item.userInfo.avatar
+											? `${import.meta.env.VITE_API_BASE_URL}${item.userInfo.avatar}`
+											: null
+									}
+									icon={<UserOutlined />}
+								/>
+							}
 							content={<div dangerouslySetInnerHTML={{ __html: item.commentContent }} />}
 							datetime={
 								<Tooltip title={formatDate(item.create_date)}>

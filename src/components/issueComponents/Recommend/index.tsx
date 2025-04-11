@@ -2,6 +2,9 @@ import { Card, Carousel, Image } from "antd"
 import styles from "./recommend.module.less"
 import RecommendItem from "./RecommendItem"
 import { memo } from "react"
+import img1 from "@/asserts/lunbo/1.webp"
+import img2 from "@/asserts/lunbo/2.webp"
+import img3 from "@/asserts/lunbo/3.webp"
 
 // 问答页面右侧推荐组件
 const Recommend = () => {
@@ -9,21 +12,27 @@ const Recommend = () => {
 		<Card title="推荐内容" variant="borderless" hoverable style={{ cursor: "auto" }}>
 			{/* 上方轮播图 */}
 			<div style={{ marginBottom: 20 }}>
-				<Carousel autoplay>
+				<Carousel autoplay arrows adaptiveHeight>
 					<Image
 						preview={false}
 						className={styles.contentStyle}
-						src="https://image-static.segmentfault.com/248/470/2484709773-635632347923b"
+						src={img1}
+						width={315}
+						height={178}
 					></Image>
 					<Image
 						preview={false}
 						className={styles.contentStyle}
-						src="https://image-static.segmentfault.com/364/971/3649718341-6355fab16df40"
+						src={img2}
+						width={315}
+						height={178}
 					></Image>
 					<Image
 						preview={false}
 						className={styles.contentStyle}
-						src="https://image-static.segmentfault.com/422/352/422352298-6355600c6676b"
+						src={img3}
+						width={315}
+						height={178}
 					></Image>
 				</Carousel>
 			</div>

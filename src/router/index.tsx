@@ -7,6 +7,8 @@ import LazyLoading from "@/components/LazyLoading"
 import { loader as IssueLoader } from "@/pages/Issue"
 import { loader as IssueDetailLoader } from "@/pages/IssueDetail"
 import { loader as PageSearchLoader } from "@/pages/PageSearch"
+import { loader as QuizLoader } from "@/pages/Quiz"
+import { loader as PersonalLoader } from "@/pages/Personal"
 
 // 改造后的routes，注意提供middlewares异步组件的数组
 const routeConfig: RouteConfig[] = [
@@ -37,6 +39,8 @@ const routeConfig: RouteConfig[] = [
 					{
 						path: "/quiz",
 						element: lazy(() => import("@/pages/Quiz")),
+						loader: QuizLoader,
+						hydrateFallbackElement: <LazyLoading></LazyLoading>,
 					},
 					{
 						path: "/addIssue",
@@ -54,6 +58,13 @@ const routeConfig: RouteConfig[] = [
 						element: lazy(() => import("@/pages/PageSearch")),
 						hydrateFallbackElement: <LazyLoading></LazyLoading>,
 						loader: PageSearchLoader,
+					},
+					{
+						path: "/personal/:id",
+						element: lazy(() => import("@/pages/Personal")),
+						middlewares: [lazy(() => import("@/router/middlewares/AuthProtectMiddleware"))],
+						hydrateFallbackElement: <LazyLoading></LazyLoading>,
+						loader: PersonalLoader,
 					},
 				],
 			},

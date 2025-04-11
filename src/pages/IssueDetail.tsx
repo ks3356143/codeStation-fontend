@@ -45,7 +45,10 @@ const IssueDetail = () => {
 						{/* 提问人信息：头像、昵称、提问时间 */}
 						<div className={styles.questioner}>
 							{userData.avatar ? (
-								<Avatar size="small" src={userData?.avatar} />
+								<Avatar
+									size="small"
+									src={`${import.meta.env.VITE_API_BASE_URL}${userData.avatar}`}
+								/>
 							) : (
 								<Avatar icon={<UserOutlined />} />
 							)}

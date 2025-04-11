@@ -59,7 +59,7 @@ const ScoreItem = (props: Props) => {
 				<div className={styles.avatar}>
 					<Avatar
 						size="small"
-						src={props.rankInfo.avatar}
+						src={`${import.meta.env.VITE_API_BASE_URL}${props.rankInfo.avatar}`}
 						icon={!props.rankInfo.avatar && <UserOutlined />}
 					/>
 				</div>
