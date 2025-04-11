@@ -35,12 +35,14 @@ const routeConfig: RouteConfig[] = [
 					{
 						path: "/book",
 						element: lazy(() => import("@/pages/Book")),
+						errorElement: <ErrorBoundary />,
 					},
 					{
 						path: "/quiz",
 						element: lazy(() => import("@/pages/Quiz")),
 						loader: QuizLoader,
 						hydrateFallbackElement: <LazyLoading></LazyLoading>,
+						errorElement: <ErrorBoundary />,
 					},
 					{
 						path: "/addIssue",
@@ -58,6 +60,7 @@ const routeConfig: RouteConfig[] = [
 						element: lazy(() => import("@/pages/PageSearch")),
 						hydrateFallbackElement: <LazyLoading></LazyLoading>,
 						loader: PageSearchLoader,
+						errorElement: <ErrorBoundary />,
 					},
 					{
 						path: "/personal/:id",
