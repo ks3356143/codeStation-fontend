@@ -15,3 +15,19 @@ export interface IssueInfo {
 	commentNumber: string
 	scanNumber: string
 }
+
+// 接口：后端返回书籍单个Book数据
+export interface BookInfo {
+	bookInfo: string
+	commentNumber: number
+	downloadLink: string
+	id: string
+	picture: string
+	requirePoints: number
+	scanNumber: number
+	title: string
+	type: {
+		id: string
+		name: string
+	}
+}

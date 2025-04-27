@@ -45,7 +45,7 @@ const LaztImage = (props: Props) => {
 		if (imgRef.current) observer.observe(imgRef.current)
 		// 清理函数
 		return () => {
-			if (observer) {
+			if (observer && imgRef.current) {
 				observer.unobserve(imgRef.current!)
 			}
 		}

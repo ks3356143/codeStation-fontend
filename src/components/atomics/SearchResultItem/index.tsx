@@ -1,8 +1,9 @@
 import IssueItem from "@/components/issueComponents/IssueItem"
-import { IssueInfo } from "@/components/issueComponents/IssueItem/types"
+import BookItem from "@/components/issueComponents/BookItem"
+import { BookInfo, IssueInfo } from "@/components/issueComponents/IssueItem/types"
 
 type Props = {
-	issueInfo: IssueInfo
+	info: IssueInfo | BookInfo
 }
 
 /**
@@ -11,8 +12,14 @@ type Props = {
  * 像这类组件没有视图，只是判断作用 -> 容器组件
  */
 const SearchResultItem = (props: Props) => {
-	const { ...rest } = props
-	return <>{props.issueInfo.issueTitle ? <IssueItem {...rest}></IssueItem> : null}</>
+	const { info, ...rest } = props
+	if ("issueTitle" in info) {
+		return <IssueItem issueInfo={info} {...rest}></IssueItem>
+	} else if ("title" in info) {
+		return <BookItem bookInfo={info} {...rest}></BookItem>
+	} else {
+		return null
+	}
 }
 
 export default SearchResultItem

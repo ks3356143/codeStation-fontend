@@ -2,7 +2,8 @@ import { RootStateType } from "@/store"
 import styles from "./index.module.less"
 import { Avatar } from "antd"
 import { UserOutlined } from "@ant-design/icons"
-import type { CSSProperties, ReactNode } from "react"
+import type { ReactNode } from "react"
+import LazyAvatar from "@/components/atomics/LazyAvatar"
 
 type Props = {
 	rankInfo: RootStateType["user"]["userInfo"]
@@ -57,9 +58,13 @@ const ScoreItem = (props: Props) => {
 			<div className={styles.left}>
 				{rankNum}
 				<div className={styles.avatar}>
-					<Avatar
+					<LazyAvatar
 						size="small"
-						src={`${import.meta.env.VITE_API_BASE_URL}${props.rankInfo.avatar}`}
+						src={
+							props.rankInfo.avatar
+								? `${import.meta.env.VITE_API_BASE_URL}${props.rankInfo.avatar}`
+								: null
+						}
 						icon={!props.rankInfo.avatar && <UserOutlined />}
 					/>
 				</div>

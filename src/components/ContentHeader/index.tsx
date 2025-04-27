@@ -1,5 +1,6 @@
 import { type ReactNode } from "react"
 import styles from "./index.module.less"
+import { memo } from "react"
 
 type Props = {
 	title: string // 内容区左上角的标题
@@ -17,4 +18,4 @@ const ContentHeader = (props: Props) => {
 	)
 }
 
-export default ContentHeader
+export default memo(ContentHeader)

@@ -36,9 +36,9 @@ const Quiz = () => {
 	}
 	// 异步请求
 	const [quizInfo, quizAction, isQuizPending] = useActionState(async (_: string, quizId: string) => {
-		const res = await quizApi.getQuizById(quizId)
 		// 人工加延迟
 		await new Promise(resolve => setTimeout(resolve, 1000))
+		const res = await quizApi.getQuizById(quizId)
 		return res.data
 	}, null)
 	// 右侧显示
@@ -63,7 +63,11 @@ const Quiz = () => {
 			</div>
 		)
 	} else {
-		quizRightSide = (
+		quizRightSide = isQuizPending ? (
+			<div className={styles.skeleton}>
+				<Skeleton active paragraph={{ width: "78%", rows: 18 }} />
+			</div>
+		) : (
 			<div className={styles.noContent}>
 				<Result
 					className={styles.noContentInner}

@@ -1,8 +1,9 @@
 import styles from "./personal.module.css"
 import ContentHeader from "@/components/ContentHeader"
 import { useStoreSelector, useStoreDispatch } from "@/store/hooks"
-import { fetchUserInfo } from "@/store/userSlice"
-import { Button, Card, Image, Upload } from "antd"
+import { fetchUserInfo, modifyNameOnUser } from "@/store/userSlice"
+import { Button, Card, Divider, Form, Image, Input, Modal, Upload } from "antd"
+import LaztImage from "@/components/atomics/LazyImage"
 import type { UploadProps } from "antd"
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons"
 import PersonalItem from "@/components/PersonalItem"
@@ -14,6 +15,7 @@ import { toast } from "react-toastify"
 
 const Personal = () => {
 	const userInfo = useStoreSelector(store => store.user.userInfo)
+	const userLoading = useStoreSelector(store => store.user.isLoading)
 	const dispatch = useStoreDispatch()
 	// 上传按钮
 	const [loading, setLoading] = useState(false) // 上传状态
@@ -42,6 +44,26 @@ const Personal = () => {
 			toast.error("上传头像失败")
 		}
 	}
+	// modal状态配置
+	const [isModalOpen, setModalOpen] = useState(false)
+	const showModal = () => {
+		// 打开时候先重置输入框
+		formData.resetFields()
+		setModalOpen(true)
+	}
+	const handleOk = async (values: { name: string }) => {
+		// 点击提交按钮就要redux里面更新数据
+		await dispatch(modifyNameOnUser(values.name))
+		setModalOpen(false)
+	}
+	const handleCancel = () => {
+		setModalOpen(false)
+	}
+	const handleReset = () => {
+		formData.resetFields()
+	}
+	const [formData] = Form.useForm()
+	// 储存Form中数据，只有一个name
 	return (
 		<div className={styles.container}>
 			<ContentHeader title="个人中心"></ContentHeader>
@@ -49,7 +71,14 @@ const Personal = () => {
 			<div className={styles.container}>
 				{/* 基本信息 */}
 				<div className={styles.row}>
-					<Card title="基本信息" extra={<Button type="link">编辑</Button>}>
+					<Card
+						title="基本信息"
+						extra={
+							<Button type="link" onClick={showModal}>
+								编辑
+							</Button>
+						}
+					>
 						<PersonalItem info={{ itemName: "登录账号", itemValue: userInfo.username }} />
 						<PersonalItem info={{ itemName: "账号密码", itemValue: "**** **** ***" }} />
 						<PersonalItem info={{ itemName: "用户昵称", itemValue: userInfo.name }} />
@@ -60,7 +89,7 @@ const Personal = () => {
 						<div style={{ height: "50px", marginBottom: "-15px" }}>当前头像</div>
 						{/* 头像容错处理 */}
 						{userInfo.avatar ? (
-							<Image
+							<LaztImage
 								src={`${import.meta.env.VITE_API_BASE_URL}${userInfo.avatar}`}
 								width={100}
 							/>
@@ -82,20 +111,33 @@ const Personal = () => {
 						</Upload>
 					</Card>
 				</div>
-
-				{/* 社交账号 */}
-				<div className={styles.row}>1</div>
-
-				{/* 个人简介 */}
-				<div className={styles.row}>1</div>
+				<Modal title="修改信息" open={isModalOpen} onCancel={handleCancel} footer={false}>
+					<Divider></Divider>
+					<Form form={formData} name="basic" onFinish={handleOk} autoComplete="off">
+						<Form.Item
+							label="昵称"
+							name="name"
+							rules={[{ required: true, message: "请输入您的昵称" }]}
+						>
+							<Input />
+						</Form.Item>
+						{/* 确认修改按钮 */}
+						<Form.Item wrapperCol={{ offset: 16, span: 16 }}>
+							<Button type="primary" htmlType="submit" loading={userLoading}>
+								确认
+							</Button>
+							<Button type="link" onClick={handleReset} className="resetBtn">
+								重置
+							</Button>
+						</Form.Item>
+					</Form>
+				</Modal>
 			</div>
 		</div>
 	)
 }
 
 // loader
-export const loader = () => {
-	console.log("进入个人中心")
-}
+export const loader = () => {}
 
 export default Personal

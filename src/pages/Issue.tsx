@@ -1,8 +1,8 @@
 import ContentHeader from "@/components/ContentHeader"
 import styles from "./issue.module.less"
 import issueApi from "@/api/system/issue"
-import { type LoaderFunction, useLoaderData, useLocation, useSearchParams } from "react-router"
-import { Empty, Pagination } from "antd"
+import { type LoaderFunction, useLoaderData, useLocation, useNavigation, useSearchParams } from "react-router"
+import { Empty, Pagination, Spin } from "antd"
 import IssueItem from "@/components/issueComponents/IssueItem"
 import type { IssueInfo } from "@/components/issueComponents/IssueItem/types"
 import { useEffect } from "react"
@@ -14,6 +14,7 @@ import TypeSelect from "@/components/TypeSelect"
 const Issue = () => {
 	const loaderData = useLoaderData()
 	const { search } = useLocation()
+	const navigation = useNavigation()
 	// 分页器回调函数 -> 改变分页查询数据
 	const [searchParams, setSearchParams] = useSearchParams()
 	const pageChange = (page: number, pageSize: number) => {
@@ -48,7 +49,15 @@ const Issue = () => {
 			<div className={styles.issueContainer}>
 				{/* 左侧区域 */}
 				<div className={styles.leftSide}>
-					{issueList}
+					{navigation.state === "loading" ? (
+						<Spin
+							style={{
+								width: "100%",
+							}}
+						></Spin>
+					) : (
+						issueList
+					)}
 					<div className={styles.paginationStyle}>
 						<Pagination
 							total={loaderData.count || 0}

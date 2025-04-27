@@ -4,6 +4,7 @@ import userApi from "@/api/system/user"
 import styles from "./issueDetail.module.css"
 import ContentHeader from "@/components/ContentHeader"
 import { Avatar } from "antd"
+import LazyAvatar from "@/components/atomics/LazyAvatar"
 import { UserOutlined } from "@ant-design/icons"
 import Recommend from "@/components/issueComponents/Recommend"
 import ScoreRank from "@/components/issueComponents/ScoreRank"
@@ -45,7 +46,7 @@ const IssueDetail = () => {
 						{/* 提问人信息：头像、昵称、提问时间 */}
 						<div className={styles.questioner}>
 							{userData.avatar ? (
-								<Avatar
+								<LazyAvatar
 									size="small"
 									src={`${import.meta.env.VITE_API_BASE_URL}${userData.avatar}`}
 								/>

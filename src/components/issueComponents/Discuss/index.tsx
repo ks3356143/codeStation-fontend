@@ -2,6 +2,7 @@ import styles from "./index.module.css"
 import { Comment } from "@ant-design/compatible"
 import { useStoreSelector } from "@/store/hooks"
 import { Avatar, Button, Form, List, Pagination, Popover, Tooltip, Empty } from "antd"
+import LazyAvatar from "@/components/atomics/LazyAvatar"
 import { UserOutlined } from "@ant-design/icons"
 import "@toast-ui/editor/toastui-editor.css"
 import { startTransition, useEffect, useOptimistic, useRef, useState } from "react"
@@ -12,7 +13,7 @@ import { formatDate } from "@/utils/commonUtils"
 import { toast } from "react-toastify"
 
 type Props = {
-	commentType: number
+	commentType: number // 1为Issue，2为Book
 	targetId: string
 	type_id: string[]
 }
@@ -61,8 +62,28 @@ const Discuss = (props: Props) => {
 					total: data.count,
 					total_pages: data.total_pages,
 				})
-			} else {
-				// 获取书籍对应的评论
+			} else if (props.commentType === 2) {
+				// 书籍的东西
+				const { data } = await commentApi.getCommentByBookId(
+					props.targetId,
+					pageInfo.page,
+					pageInfo.page_size
+				)
+				// 把头像数据加入到commentList里面
+				for (let i = 0; i < data.results.length; i++) {
+					const result = await userApi.getUserInfoById({ user_id: data.results[i].user })
+					// 将用户的信息添加到评论对象上面
+					data.results[i].userInfo = result.data
+				}
+				// 更新评论数据
+				setCommentList(data.results)
+				// 更新分页数据-根据后端字段
+				setPageInfo({
+					page: data.current_page,
+					page_size: data.page_size,
+					total: data.count,
+					total_pages: data.total_pages,
+				})
 			}
 			setIsPending(false)
 		}
@@ -86,7 +107,7 @@ const Discuss = (props: Props) => {
 	let avatar = <Avatar icon={<UserOutlined />} />
 	if (isLogin) {
 		avatar = userInfo.avatar ? (
-			<Avatar src={`${import.meta.env.VITE_API_BASE_URL}${userInfo.avatar}`} />
+			<LazyAvatar src={`${import.meta.env.VITE_API_BASE_URL}${userInfo.avatar}`} />
 		) : (
 			<Avatar icon={<UserOutlined />} />
 		)
@@ -105,31 +126,60 @@ const Discuss = (props: Props) => {
 		}
 		setCommentLoading(true)
 		// 组装提交内容
-		const addOptions = {
-			user_id: userInfo.id,
-			issue_id: props.targetId,
-			commentType: 1,
-			commentContent: commentContent,
-			type: props.type_id,
-		}
+		const addOptions =
+			props.commentType === 1
+				? {
+						user_id: userInfo.id,
+						issue_id: props.targetId,
+						commentType: 1,
+						commentContent: commentContent,
+						type: props.type_id,
+				  }
+				: {
+						user_id: userInfo.id,
+						book_id: props.targetId,
+						commentType: 2,
+						commentContent: commentContent,
+						type: props.type_id,
+				  }
 		startTransition(async () => {
-			addOptimistic({
-				...addOptions,
-				// 这里修改commentContent-让用户觉得是乐观更新
-				commentContent: addOptions.commentContent + "(这是乐观更新内容，请稍等，正在发送......)",
-				create_date: new Date().toISOString(),
-				id: "随机ID",
-				issue: addOptions.issue_id,
-				user: addOptions.user_id,
-				userInfo: {
-					avatar: "",
-				},
-			})
+			if (props.commentType === 1) {
+				addOptimistic({
+					...addOptions,
+					// 这里修改commentContent-让用户觉得是乐观更新
+					commentContent: addOptions.commentContent + "(这是乐观更新内容，请稍等，正在发送......)",
+					create_date: new Date().toISOString(),
+					id: "随机ID",
+					issue: addOptions.issue_id,
+					user: addOptions.user_id,
+					userInfo: {
+						avatar: "",
+					},
+				})
+			} else if (props.commentType === 2) {
+				addOptimistic({
+					...addOptions,
+					// 同上理由
+					commentContent: addOptions.commentContent + "(这是乐观更新内容，请稍等，正在发送......)",
+					create_date: new Date().toISOString(),
+					id: "随机ID",
+					book: addOptions.book_id,
+					user: addOptions.user_id,
+					userInfo: {
+						avatar: "",
+					},
+				})
+			}
 			// 手动延迟1s，让用户看见乐观状态
 			await new Promise(resolve => setTimeout(resolve, 1000))
 			try {
-				const res = await commentApi.submitCommentOnIssue(addOptions)
-				const commentObj = res.data
+				let res
+				if (props.commentType === 1) {
+					res = await commentApi.submitCommentOnIssue(addOptions)
+				} else if (props.commentType === 2) {
+					res = await commentApi.submitCommentOnBook(addOptions)
+				}
+				const commentObj = res!.data
 				const userInfoRes = await userApi.getUserInfoById({ user_id: commentObj.user })
 				// 把信息添加到commentObj上面
 				commentObj.userInfo = userInfoRes.data
@@ -195,7 +245,7 @@ const Discuss = (props: Props) => {
 					renderItem={(item: any) => (
 						<Comment
 							avatar={
-								<Avatar
+								<LazyAvatar
 									src={
 										item.userInfo.avatar
 											? `${import.meta.env.VITE_API_BASE_URL}${item.userInfo.avatar}`
@@ -220,6 +270,8 @@ const Discuss = (props: Props) => {
 					<Pagination
 						showQuickJumper
 						defaultCurrent={1}
+						current={pageInfo.page}
+						pageSize={pageInfo.page_size}
 						total={pageInfo.total}
 						onChange={pageChange}
 					/>

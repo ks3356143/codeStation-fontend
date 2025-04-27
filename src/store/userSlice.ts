@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootStateType } from "./"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import userApi from "@/api/system/user"
@@ -28,7 +28,7 @@ const userSlice = createSlice({
 			.addCase(fetchTokenCreator.pending, state => {
 				state.isLoading = true
 			})
-			.addCase(fetchTokenCreator.rejected, (state, action) => {
+			.addCase(fetchTokenCreator.rejected, state => {
 				// 登录失败也提示
 				state.isLoading = false
 			})
@@ -52,6 +52,16 @@ const userSlice = createSlice({
 					state.isLogin = false
 				}
 			})
+			.addCase(modifyNameOnUser.pending, state => {
+				state.isLoading = true
+			})
+			.addCase(modifyNameOnUser.rejected, state => {
+				state.isLoading = false
+			})
+			.addCase(modifyNameOnUser.fulfilled, (state, action: PayloadAction<string>) => {
+				state.userInfo.name = action.payload
+				state.isLoading = false
+			})
 	},
 })
 
@@ -70,6 +80,16 @@ export const fetchUserInfo = createAsyncThunk("user/fetchUserInfo", async () => 
 	const res = await userApi.fetchUserInfo()
 	return res
 })
+// 修改用户name -> 三个泛型分别为：返回值类型/参数类型(无参数void)/thunkAPI类型(里面指定state类型)
+export const modifyNameOnUser = createAsyncThunk<string, string, { state: RootStateType }>(
+	"user/modifyNameOnUser",
+	async (name, thunkApi) => {
+		// 获取仓库的user_id
+		const user_id = thunkApi.getState().user.userInfo.id
+		const res = await userApi.modifyUserNickName(user_id, name)
+		return res.data
+	}
+)
 
 // Actions
 export default userSlice

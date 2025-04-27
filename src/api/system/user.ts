@@ -44,4 +44,17 @@ export default {
 			},
 		})
 	},
+	/**
+	 * 根据id和name修改用户的name
+	 */
+	modifyUserNickName(user_id: string, name: string) {
+		return request({
+			url: "/user/modify_name",
+			method: "get",
+			params: {
+				user_id,
+				name
+			},
+		})
+	},
 }

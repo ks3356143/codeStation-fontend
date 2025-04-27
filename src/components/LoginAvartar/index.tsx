@@ -4,6 +4,7 @@ import { Avatar, Dropdown, type MenuProps } from "antd"
 import styles from "./uiverse.module.css"
 import { memo } from "react"
 import { useNavigate } from "react-router"
+import LazyAvatar from "@/components/atomics/LazyAvatar"
 
 type Props = {
 	onLogin: () => void
@@ -47,8 +48,8 @@ const LoginAvatar = (props: Props) => {
 	return isLogin ? (
 		<Dropdown menu={{ items }} placement="bottom" arrow>
 			<div style={{ userSelect: "none", cursor: "pointer" }}>
-				{url ? (
-					<Avatar size="large" src={<img src={url} alt="avatar" />} />
+				{userInfo.avatar ? (
+					<LazyAvatar size="large" src={<img src={url} alt="avatar" />} />
 				) : (
 					<Avatar size="large" style={{ backgroundColor: getColor() }}>
 						{userInfo.name[0]}
