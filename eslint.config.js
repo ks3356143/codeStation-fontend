@@ -27,6 +27,7 @@ export default tseslint.config(
 			"@typescript-eslint/no-unsafe-function-type": 0,
 			"react-refresh/only-export-components": 0,
 			"react-hooks/exhaustive-deps": 0,
+			"react-hooks/static-components": 0,
 		},
 	}
 )
