@@ -39,41 +39,45 @@ function Books() {
 	const { results } = loaderData
 	const bookList =
 		results.length > 0 ? (
-			results.map((bookInfo: BookInfo, index: number) => (
-				<Card
-					hoverable
-					style={{
-						width: 200,
-						marginBottom: 30,
-						boxSizing: "border-box",
-						flex: "0 0 calc(20% - 50px)",
-					}}
-					onClick={() => navigate(`/bookDetail/${bookInfo.id}`, { state: { scrollTo: "top" } })}
-					cover={
-						<img
-							alt="书籍蜂蜜"
-							style={{
-								width: 160,
-								height: 200,
-								margin: "auto",
-								marginTop: 10,
-							}}
-							src={
-								bookInfo.picture
-									? `${import.meta.env.VITE_API_BASE_URL}${bookInfo.picture}`
-									: img1
-							}
-						/>
-					}
-					key={index}
-				>
-					<Card.Meta title={bookInfo.title}></Card.Meta>
-					<div className={styles.numberContainer}>
-						<div>浏览数：{bookInfo.scanNumber}</div>
-						<div>评论数：{bookInfo.commentNumber}</div>
-					</div>
-				</Card>
-			))
+			results.map((bookInfo: BookInfo, index: number) => {
+				return (
+					<Card
+						hoverable
+						style={{
+							width: 200,
+							marginBottom: 30,
+							boxSizing: "border-box",
+							flex: "0 0 calc(20% - 50px)",
+						}}
+						onClick={() => navigate(`/bookDetail/${bookInfo.id}`, { state: { scrollTo: "top" } })}
+						cover={
+							<img
+								alt="书籍封面"
+								style={{
+									width: 160,
+									height: 200,
+									margin: "auto",
+									marginTop: 10,
+								}}
+								src={
+									bookInfo.picture
+										? `${import.meta.env.VITE_APP_BASE_URL.replace("/api", "")}${
+												bookInfo.picture
+										  }`
+										: img1
+								}
+							/>
+						}
+						key={index}
+					>
+						<Card.Meta title={bookInfo.title}></Card.Meta>
+						<div className={styles.numberContainer}>
+							<div>浏览数：{bookInfo.scanNumber}</div>
+							<div>评论数：{bookInfo.commentNumber}</div>
+						</div>
+					</Card>
+				)
+			})
 		) : (
 			<div className={styles.bookNoContent}>
 				<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无书籍信息..." />

@@ -48,7 +48,7 @@ const IssueDetail = () => {
 							{userData.avatar ? (
 								<LazyAvatar
 									size="small"
-									src={`${import.meta.env.VITE_API_BASE_URL}${userData.avatar}`}
+									src={`${import.meta.env.VITE_APP_BASE_URL.replace("/api", "")}${userData.avatar}`}
 								/>
 							) : (
 								<Avatar icon={<UserOutlined />} />

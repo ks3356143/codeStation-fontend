@@ -44,7 +44,7 @@ const LoginAvatar = (props: Props) => {
 	// 获取用户登录状态
 	const { isLogin, userInfo } = useStoreSelector(selectUser)
 	// 判断userInfo是否存在
-	const url = `${import.meta.env.VITE_API_BASE_URL}${userInfo.avatar}`
+	const url = `${import.meta.env.VITE_APP_BASE_URL.replace("/api", "")}${userInfo.avatar}`
 	return isLogin ? (
 		<Dropdown menu={{ items }} placement="bottom" arrow>
 			<div style={{ userSelect: "none", cursor: "pointer" }}>

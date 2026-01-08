@@ -40,6 +40,7 @@ const Discuss = (props: Props) => {
 	// effect
 	useEffect(() => {
 		const fetchComments = async () => {
+			setIsPending(true)
 			if (props.commentType === 1) {
 				// 获取问答对应的评论
 				const { data } = await commentApi.getCommentByIssueId(
@@ -49,7 +50,7 @@ const Discuss = (props: Props) => {
 				)
 				// 把头像数据加入到commentList里面
 				for (let i = 0; i < data.results.length; i++) {
-					const result = await userApi.getUserInfoById({ user_id: data.results[i].user })
+					const result = await userApi.getUserInfoById({ user_id: data.results[i].user.id })
 					// 将用户的信息添加到评论对象上面
 					data.results[i].userInfo = result.data
 				}
@@ -70,11 +71,13 @@ const Discuss = (props: Props) => {
 					pageInfo.page_size
 				)
 				// 把头像数据加入到commentList里面
-				for (let i = 0; i < data.results.length; i++) {
-					const result = await userApi.getUserInfoById({ user_id: data.results[i].user })
-					// 将用户的信息添加到评论对象上面
-					data.results[i].userInfo = result.data
-				}
+				const userPromises = data.results.map((comment: any) =>
+					userApi.getUserInfoById({ user_id: comment.user })
+				)
+				const userResults = await Promise.all(userPromises)
+				data.results.forEach((comment: any, index: number) => {
+					comment.userInfo = userResults[index].data
+				})
 				// 更新评论数据
 				setCommentList(data.results)
 				// 更新分页数据-根据后端字段
@@ -88,13 +91,8 @@ const Discuss = (props: Props) => {
 			setIsPending(false)
 		}
 		// 为了处理出错导致加载中state错误
-		try {
-			setIsPending(true)
-			fetchComments()
-		} catch (err) {
-			setIsPending(false)
-		}
-	}, [pageInfo.page, props.targetId])
+		fetchComments()
+	}, [pageInfo.page, pageInfo.page_size, props.targetId, props.commentType])
 	// 分页器切换评论
 	const pageChange = (page: number) => {
 		// 切换state就可以刷新页面
@@ -107,7 +105,7 @@ const Discuss = (props: Props) => {
 	let avatar = <Avatar icon={<UserOutlined />} />
 	if (isLogin) {
 		avatar = userInfo.avatar ? (
-			<LazyAvatar src={`${import.meta.env.VITE_API_BASE_URL}${userInfo.avatar}`} />
+			<LazyAvatar src={`${import.meta.env.VITE_APP_BASE_URL.replace("/api", "")}${userInfo.avatar}`} />
 		) : (
 			<Avatar icon={<UserOutlined />} />
 		)
@@ -248,7 +246,9 @@ const Discuss = (props: Props) => {
 								<LazyAvatar
 									src={
 										item.userInfo.avatar
-											? `${import.meta.env.VITE_API_BASE_URL}${item.userInfo.avatar}`
+											? `${import.meta.env.VITE_APP_BASE_URL.replace("/api", "")}${
+													item.userInfo.avatar
+											  }`
 											: null
 									}
 									icon={<UserOutlined />}

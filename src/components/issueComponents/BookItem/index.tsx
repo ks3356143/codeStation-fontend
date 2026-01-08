@@ -32,7 +32,7 @@ const BookItem = (props: Props) => {
 						className={styles.bookPic}
 						src={
 							props.bookInfo.picture
-								? `${import.meta.env.VITE_API_BASE_URL}${props.bookInfo.picture}`
+								? `${import.meta.env.VITE_APP_BASE_URL}${props.bookInfo.picture}`
 								: img1
 						}
 					/>

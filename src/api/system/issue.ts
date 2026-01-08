@@ -13,9 +13,16 @@ export default {
 	 * 分页获取问答
 	 */
 	getIssueByPage(
-		params: { page?: number; page_size?: number; enabled?: boolean; type?: string } = {
+		params: {
+			page?: number
+			page_size?: number
+			enabled?: boolean
+			type?: string
+			issueTitle: string
+		} = {
 			enabled: true,
 			type: "all",
+			issueTitle: "",
 		}
 	) {
 		return request({

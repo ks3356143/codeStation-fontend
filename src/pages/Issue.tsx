@@ -91,6 +91,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		page_size,
 		enabled: true, // 必填
 		type, // 必填
+		issueTitle: "",
 	})
 	return res.data
 }

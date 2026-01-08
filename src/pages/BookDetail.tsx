@@ -42,7 +42,7 @@ const BookDetail = () => {
             <LaztImage
               width={280}
               height={350}
-              src={loaderData.picture ? `${import.meta.env.VITE_API_BASE_URL}${loaderData.picture}` : img1}
+              src={loaderData.picture ? `${import.meta.env.VITE_APP_BASE_URL.replace("/api", "")}${loaderData.picture}` : img1}
             />
           </div>
           <div className={styles.link}>

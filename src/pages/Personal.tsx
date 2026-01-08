@@ -90,7 +90,9 @@ const Personal = () => {
 						{/* 头像容错处理 */}
 						{userInfo.avatar ? (
 							<LaztImage
-								src={`${import.meta.env.VITE_API_BASE_URL}${userInfo.avatar}`}
+								src={`${import.meta.env.VITE_APP_BASE_URL.replace("/api", "")}${
+									userInfo.avatar
+								}`}
 								width={100}
 							/>
 						) : (
